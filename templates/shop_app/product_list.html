@@ -1,0 +1,42 @@
+<!-- templates/shop_app/product_list.html -->
+{% extends 'shop_app/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | Маркетплейс{% endblock %}
+
+{% block content %}
+<div class="products-header">
+    <h2>{{ title }}</h2>
+    <p>Всего товаров: {{ products|length }}</p>
+</div>
+<div class="products-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <a href="{% url 'product_detail' pk=product.pk %}" class="product-image-link">
+        <!-- Уменьшенное изображение для списка товаров -->
+        <div class="product-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="thumbnail">
+            {% else %}
+                <img src="{% static 'img/placeholder.gif' %}" alt="Нет изображения" class="thumbnail">
+            {% endif %}
+        </div>
+        
+        <div class="product-info">
+            <h3 class="product-title">
+                <a href="{% url 'product_detail' pk=product.pk %}">{{ product.name }}</a>
+            </h3>
+            <p class="product-description">{{ product.description|truncatewords:20 }}</p>
+            <div class="product-footer">
+                <span class="product-price">{{ product.price|floatformat:2 }} ₽</span>
+                <a href="{% url 'product_detail' pk=product.pk %}" class="btn-detail">Подробнее →</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+        <p>😕 Товаров пока нет. Зайдите позже!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

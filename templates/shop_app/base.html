@@ -1,0 +1,44 @@
+<!-- templates/shop_app/base.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Маркетплейс{% endblock %}</title>
+    
+    <!-- Подключаем CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>
+                    <a href="{% url 'product_list' %}" class="logo">🛒 Маркетплейс</a>
+                </h1>
+                <nav>
+                    <a href="{% url 'product_list' %}">Каталог</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Маркетплейс. Все права защищены.</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

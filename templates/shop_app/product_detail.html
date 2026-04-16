@@ -1,0 +1,43 @@
+<!-- templates/shop_app/product_detail.html -->
+{% extends 'shop_app/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Маркетплейс{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+    <div class="breadcrumbs">
+        <a href="{% url 'product_list' %}">← Назад к каталогу</a>
+    </div>
+
+    <div class="product-detail-container">
+        <!-- Увеличенное изображение для детальной страницы -->
+        <div class="product-detail-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="full-image">
+            {% else %}
+                <img src="{% static 'img/placeholder.gif' %}" alt="Нет изображения" class="full-image">
+            {% endif %}
+        </div>
+
+        <div class="product-detail-info">
+            <h1>{{ product.name }}</h1>
+            
+            <div class="product-meta">
+                <span class="product-price-large">{{ product.price|floatformat:2 }} ₽</span>
+                <span class="product-date">Добавлен: {{ product.created_at|date:"d.m.Y" }}</span>
+            </div>
+
+            <div class="product-description-full">
+                <h3>Описание:</h3>
+                <p>{{ product.description|linebreaks }}</p>
+            </div>
+
+            <div class="product-actions">
+                <button class="btn-buy">Купить</button>
+                <button class="btn-cart">В корзину</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

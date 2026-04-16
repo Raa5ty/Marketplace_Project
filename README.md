@@ -27,7 +27,7 @@
 
 ## 📁 Структура проекта
 
-Marketplace_Project/
+`Marketplace_Project/
 ├── Marketplace/           # Основная конфигурация проекта
 │   ├── settings.py       # Настройки проекта
 │   ├── urls.py           # Главные URL-маршруты
@@ -49,4 +49,4 @@ Marketplace_Project/
 │       └── placeholder.png # Заглушка для изображений
 ├── media/                # Загруженные изображения
 │   └── products/         # Картинки товаров
-└── manage.py
+└── manage.py`

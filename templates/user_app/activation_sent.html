@@ -1,0 +1,12 @@
+{% extends 'shop_app/base.html' %}
+
+{% block title %}Письмо отправлено{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Проверьте почту</h2>
+    <p>На ваш email отправлена ссылка для активации аккаунта.</p>
+    <p>Перейдите по ссылке, чтобы завершить регистрацию.</p>
+    <a href="{% url 'shop_app:product_list' %}" class="btn-primary">На главную</a>
+</div>
+{% endblock %}

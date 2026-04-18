@@ -1,22 +1,20 @@
-<!-- templates/shop_app/product_detail.html -->
 {% extends 'shop_app/base.html' %}
 {% load static %}
 
-{% block title %}{{ product.name }} | Маркетплейс{% endblock %}
+{% block title %}{{ product.name }} | AutoMarket{% endblock %}
 
 {% block content %}
 <div class="product-detail">
     <div class="breadcrumbs">
-        <a href="{% url 'product_list' %}">← Назад к каталогу</a>
+        <a href="{% url 'shop_app:product_list' %}">← Назад к каталогу</a>
     </div>
 
     <div class="product-detail-container">
-        <!-- Увеличенное изображение для детальной страницы -->
         <div class="product-detail-image">
             {% if product.image %}
                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="full-image">
             {% else %}
-                <img src="{% static 'img/placeholder.gif' %}" alt="Нет изображения" class="full-image">
+                <img src="{% static 'img/placeholder.png' %}" alt="Нет изображения" class="full-image">
             {% endif %}
         </div>
 
@@ -25,18 +23,67 @@
             
             <div class="product-meta">
                 <span class="product-price-large">{{ product.price|floatformat:2 }} ₽</span>
-                <span class="product-date">Добавлен: {{ product.created_at|date:"d.m.Y" }}</span>
+                <span class="product-stock">На складе: {{ product.stock }} шт.</span>
             </div>
 
             <div class="product-description-full">
                 <h3>Описание:</h3>
-                <p>{{ product.description|linebreaks }}</p>
+                <p>{{ product.description|linebreaks|default:"Описание отсутствует" }}</p>
             </div>
 
             <div class="product-actions">
                 <button class="btn-buy">Купить</button>
-                <button class="btn-cart">В корзину</button>
+                <a href="{% url 'shop_app:add_to_cart' product_id=product.id %}?next={{ request.path }}" class="btn-cart">
+                    Добавить в корзину
+                </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Блок отзывов -->
+    <div class="reviews-section">
+        <h3>Отзывы покупателей</h3>
+        
+        {% if reviews %}
+            {% for review in reviews %}
+                <div class="review-card">
+                    <div class="review-header">
+                        <strong>{{ review.user.email }}</strong>
+                        <span class="review-rating">⭐ {{ review.rating }}/5</span>
+                        <span class="review-date">{{ review.created_at|date:"d.m.Y" }}</span>
+                    </div>
+                    <div class="review-text">
+                        {{ review.text|linebreaks }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-reviews">Пока нет отзывов. Будьте первым!</p>
+        {% endif %}
+        
+        <!-- Форма добавления отзыва -->
+        <div class="review-form-container">
+            <h4>Оставить отзыв</h4>
+            
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'shop_app:add_review' product_id=product.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_rating">Оценка</label>
+                        {{ review_form.rating }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_text">Ваш отзыв</label>
+                        {{ review_form.text }}
+                    </div>
+                    <button type="submit" class="btn-primary">Отправить отзыв</button>
+                </form>
+            {% else %}
+                <p class="login-to-review">
+                    <a href="{% url 'user_app:login' %}?next={{ request.path }}">Войдите</a>, 
+                    чтобы оставить отзыв
+                </p>
+            {% endif %}
         </div>
     </div>
 </div>

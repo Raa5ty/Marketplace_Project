@@ -2,7 +2,7 @@
 {% extends 'shop_app/base.html' %}
 {% load static %}
 
-{% block title %}{{ title }} | Маркетплейс{% endblock %}
+{% block title %}{{ title }} | AutoMarket{% endblock %}
 
 {% block content %}
 <div class="products-header">
@@ -12,7 +12,7 @@
 <div class="products-grid">
     {% for product in products %}
     <div class="product-card">
-        <a href="{% url 'product_detail' pk=product.pk %}" class="product-image-link">
+        <a href="{% url 'shop_app:product_detail' pk=product.pk %}" class="product-image-link">
         <!-- Уменьшенное изображение для списка товаров -->
         <div class="product-image">
             {% if product.image %}
@@ -24,12 +24,12 @@
         
         <div class="product-info">
             <h3 class="product-title">
-                <a href="{% url 'product_detail' pk=product.pk %}">{{ product.name }}</a>
+                <a href="{% url 'shop_app:product_detail' pk=product.pk %}">{{ product.name }}</a>
             </h3>
             <p class="product-description">{{ product.description|truncatewords:20 }}</p>
             <div class="product-footer">
                 <span class="product-price">{{ product.price|floatformat:2 }} ₽</span>
-                <a href="{% url 'product_detail' pk=product.pk %}" class="btn-detail">Подробнее →</a>
+                <a href="{% url 'shop_app:product_detail' pk=product.pk %}" class="btn-detail">Подробнее →</a>
             </div>
         </div>
     </div>

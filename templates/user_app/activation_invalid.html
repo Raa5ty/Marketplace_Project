@@ -1,0 +1,11 @@
+{% extends 'shop_app/base.html' %}
+
+{% block title %}Ошибка активации{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Ошибка активации</h2>
+    <p>Ссылка активации недействительна или истекла.</p>
+    <a href="{% url 'user_app:register' %}" class="btn-primary">Зарегистрироваться снова</a>
+</div>
+{% endblock %}

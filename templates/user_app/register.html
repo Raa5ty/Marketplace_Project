@@ -1,0 +1,51 @@
+{% extends 'shop_app/base.html' %}
+{% load static %}
+
+{% block title %}Регистрация | AutoMarket{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Регистрация</h2>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="alert alert-error">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label for="id_email">Email *</label>
+            {{ form.email }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_phone_number">Телефон</label>
+            {{ form.phone_number }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_address">Адрес доставки</label>
+            {{ form.address }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_password1">Пароль *</label>
+            {{ form.password1 }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_password2">Подтверждение пароля *</label>
+            {{ form.password2 }}
+        </div>
+        
+        <button type="submit" class="btn-primary">Зарегистрироваться</button>
+    </form>
+    <p class="auth-link">Уже есть аккаунт? <a href="{% url 'user_app:login' %}">Войти</a></p>
+</div>
+{% endblock %}

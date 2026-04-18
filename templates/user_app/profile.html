@@ -1,0 +1,53 @@
+{% extends 'shop_app/base.html' %}
+{% load static %}
+
+{% block title %}Личный кабинет | AutoMarket{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Личный кабинет</h2>
+    
+    <div class="profile-info">
+        <div class="info-section">
+            <h3>Информация об аккаунте</h3>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Телефон:</strong> {{ user.phone_number|default:"Не указан" }}</p>
+            <p><strong>Адрес доставки:</strong> {{ user.address|default:"Не указан"|linebreaks }}</p>
+            <p><strong>Дата регистрации:</strong> {{ user.created_at|date:"d.m.Y" }}</p>
+        </div>
+        
+        <div class="info-section">
+            <h3>История заказов</h3>
+            {% if orders %}
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>№ заказа</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                            <td>{{ order.get_status_display }}</td>
+                            <td>{{ order.total_price|floatformat:2 }} ₽</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>У вас пока нет заказов.</p>
+            {% endif %}
+        </div>
+        
+        <div class="profile-actions">
+            <a href="{% url 'user_app:profile_edit' %}" class="btn-primary">Редактировать профиль</a>
+            <a href="{% url 'user_app:password_change' %}" class="btn-secondary">Сменить пароль</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

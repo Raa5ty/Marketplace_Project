@@ -1,0 +1,63 @@
+{% extends 'shop_app/base.html' %}
+{% load static %}
+
+{% block title %}Корзина | AutoMarket{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    <h2>Корзина</h2>
+    
+    {% if cart_items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Сумма</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>
+                        <a href="{% url 'shop_app:product_detail' pk=item.product.id %}">
+                            {{ item.product.name }}
+                        </a>
+                    </td>
+                    <td>{{ item.product.price|floatformat:2 }} ₽</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.total_price|floatformat:2 }} ₽</td>
+                    <td>
+                        <a href="{% url 'shop_app:remove_from_cart' product_id=item.product.id %}" 
+                           class="btn-remove">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"><strong>Итого:</strong></td>
+                    <td><strong>{{ total|floatformat:2 }} ₽</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <div class="cart-actions">
+            <a href="{% url 'shop_app:product_list' %}" class="btn-secondary">Продолжить покупки</a>
+            {% if user.is_authenticated %}
+                <a href="#" class="btn-primary">Оформить заказ</a>
+            {% else %}
+                <a href="{% url 'user_app:login' %}?next={% url 'shop_app:cart' %}" class="btn-primary">
+                    Войти для оформления
+                </a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>Ваша корзина пуста</p>
+        <a href="{% url 'shop_app:product_list' %}" class="btn-primary">Перейти к покупкам</a>
+    {% endif %}
+</div>
+{% endblock %}

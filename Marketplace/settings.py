@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'shop_app.apps.ShopAppConfig',
+    'user_app.apps.UserAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +123,15 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # Путь для сохранения загруженных изображений
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# URL для перенаправления при неавторизованном доступе
+LOGIN_URL = 'user_app:login'
+LOGIN_REDIRECT_URL = 'shop_app:product_list'
+LOGOUT_REDIRECT_URL = 'shop_app:product_list'
+
+# Кастомная модель пользователя
+AUTH_USER_MODEL = 'user_app.CustomUser'
+
+# Email настройки (для разработки - вывод в консоль)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Письма в консоль
+DEFAULT_FROM_EMAIL = 'noreply@marketplace.com'
